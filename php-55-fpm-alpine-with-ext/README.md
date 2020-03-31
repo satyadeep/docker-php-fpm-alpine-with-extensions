@@ -41,5 +41,9 @@
 * Uploadprogress
 * Memcache Version 3.0.8 (As this is the last version compatible with PHP 5)
 
+### Extensions for sending email :
+
+* msmtp
+
   To build this image, just run  
 ```docker image build -t  imagename .```

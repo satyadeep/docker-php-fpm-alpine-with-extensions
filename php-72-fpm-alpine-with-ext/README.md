@@ -1,4 +1,4 @@
-# PHP FPM 7.2 based on Alpine Linux 3.9.3
+# PHP FPM 7.2 based on Alpine Linux 3.11
 
 ## PHP Extensions Included -
 
@@ -39,6 +39,10 @@
 * [Tideways PHP Profiler](https://github.com/tideways/php-profiler-extension.git)
 * Uploadprogress Modfied Version from [here](https://github.com/Jan-E/uploadprogress)
 * Memcached
+
+### Extensions for sending email :
+
+* msmtp
 
   To build this image, just run  
 ```docker image build -t  imagename .```

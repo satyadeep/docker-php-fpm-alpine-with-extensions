@@ -1,8 +1,8 @@
-FROM satyadeep/php-71-fpm:alpine3.11
+FROM php:7.4-fpm-alpine
 
 LABEL MAINTAINER="SATYADEEP G" \
       "GitHub Link"="https://github.com/satyadeep" \
-      "PHP Version"="7.1.33" \
+      "PHP Version"="7.4.4" \
       "Alpine Linux Version"="3.11"
 
 # RUN docker-php-ext-install mysqli pdo pdo_mysql && docker-php-ext-enable pdo_mysql
@@ -59,7 +59,7 @@ RUN apk add --no-cache --virtual .build-deps \
          imap \
          intl \
          ldap \
-         mbstring \
+         #  mbstring \ https://github.com/laradock/laradock/issues/2407
          mysqli \
          opcache \
          pdo \
@@ -90,8 +90,7 @@ RUN apk add --no-cache --virtual .build-deps \
                 && make install \
                 && cd .. \
         ) \
-
-        #### Only  mcrypt 1.0.1 supports PHP 7.3
+        #### Only mcrypt 1.0.1 supports PHP 7.3 and later
         && git clone https://github.com/php/pecl-encryption-mcrypt.git /tmp/mcrypt \
         && ( \
                 cd /tmp/mcrypt \
@@ -104,7 +103,8 @@ RUN apk add --no-cache --virtual .build-deps \
         && rm -r /tmp/php-profiler-extension \
         && rm -r /tmp/uploadprogress \
         && rm -r /tmp/mcrypt \
-        # Only the latest beta version supports PHP7.3
+
+        # Only the latest beta version supports PHP7.3 and later
         && pecl install xdebug-beta \
         #  UploadProgress is not being developed anymore
         && printf "\n" | pecl install imagick \
@@ -117,7 +117,7 @@ RUN apk add --no-cache --virtual .build-deps \
         mcrypt \
         mongodb \
         memcached \
-        # sodium \
+        sodium \
         tideways_xhprof \
         # twig \
         uploadprogress \

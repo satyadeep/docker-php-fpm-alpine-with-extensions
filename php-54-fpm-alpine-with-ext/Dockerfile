@@ -44,7 +44,6 @@ RUN apk add --no-cache --virtual .build-deps \
             openldap-dev \
             # to build xdebug from PECL
             $PHPIZE_DEPS \
-
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
      && docker-php-ext-install \
          bcmath \
@@ -71,8 +70,6 @@ RUN apk add --no-cache --virtual .build-deps \
          xmlrpc \
          xsl \
          zip \
-
-
     && git clone https://github.com/zendtech/ZendOptimizerPlus.git /tmp/ZendOptimizerPlus \
         && ( \
                 cd /tmp/ZendOptimizerPlus \
@@ -93,7 +90,6 @@ RUN apk add --no-cache --virtual .build-deps \
         ) \
         && rm -r /tmp/ZendOptimizerPlus  \
         && rm -r /tmp/twig \
-
 #####   Using Xdebug 2.4.1 as support for PHP 5.4 has been dropped in later versions   #####
         && pecl install xdebug-2.4.1 \
         && pecl install xhprof-beta \
@@ -109,21 +105,17 @@ RUN apk add --no-cache --virtual .build-deps \
         memcache \
         twig \
         uploadprogress \
-
         &&  echo -e "\n opcache.enable=1 \n opcache.enable_cli=1 \n opcache.memory_consumption=128 \n opcache.interned_strings_buffer=8 \n opcache.max_accelerated_files=4000 \n opcache.revalidate_freq=60 \n opcache.fast_shutdown=1" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
         &&  echo -e "\n xdebug.remote_enable=1 \n xdebug.remote_host=localhost \n xdebug.remote_port=9000" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
         &&  echo -e "\n xhprof.output_dir='/var/tmp/xhprof'" >> /usr/local/etc/php/conf.d/docker-php-ext-xhprof.ini \
-
         # && pecl install intl\
         # && docker-php-ext-enable intl \
-     
     # next will add runtime deps for php extensions
     # what this does is checks the necessary packages for php extensions Shared Objects
     # and adds those (won't be removed when .build-deps are)
     # && docker-php-ext-enable \
         #  xdebug\
      #    uploadprogress\
-       
     && runDeps="$( \
             scanelf --needed --nobanner --recursive \
                 /usr/local/lib/php/extensions \
@@ -150,3 +142,6 @@ RUN apk add \
     && php -r "if (hash_file('SHA384', 'composer-setup.php') === trim(file_get_contents('signature'))) { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
     && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
     && php -r "unlink('composer-setup.php');"
+
+# Install msmtp - To Send Mails on Production & Development
+    RUN apk add msmtp
