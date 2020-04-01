@@ -1,8 +1,8 @@
-# PHP FPM 7.0 based on Alpine Linux 3.11
+# PHP FPM 7.0 based on Alpine Linux 3.7
 
 ## PHP Extensions Included -
 
-### Core Extensions:
+### Core Extensions :
 
 * bcmath
 * bz2
@@ -35,12 +35,12 @@
 * mongodb
 * sodium
 * Zend Optimizer Plus (Opcache)
-* Xdebug 2.7.0 Beta 1
+* Xdebug 2.9.0 (Using Xdebug 2.9.0 as support for PHP 7.0 has been dropped in later versions)
 * [Tideways PHP Profiler](https://github.com/tideways/php-profiler-extension.git)
-* Uploadprogress Modfied Version from [here](https://github.com/Jan-E/uploadprogress)
+* Uploadprogress
 * Memcached
 
-### Extensions for sending email :
+### Extension for sending email :
 
 * msmtp
 

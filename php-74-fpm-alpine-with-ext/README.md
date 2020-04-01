@@ -2,7 +2,7 @@
 
 ## PHP Extensions Included -
 
-### Core Extensions:
+### Core Extensions :
 
 * bcmath
 * bz2
@@ -35,12 +35,12 @@
 * mongodb
 * sodium
 * Zend Optimizer Plus (Opcache)
-* Xdebug 2.7.0 Beta 1
+* Xdebug
 * [Tideways PHP Profiler](https://github.com/tideways/php-profiler-extension.git)
 * Uploadprogress Modfied Version from [here](https://github.com/Jan-E/uploadprogress)
 * Memcached
 
-### Extensions for sending email :
+### Extension for sending email :
 
 * msmtp
 

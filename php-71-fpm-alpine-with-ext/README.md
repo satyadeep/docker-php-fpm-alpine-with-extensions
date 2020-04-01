@@ -2,7 +2,7 @@
 
 ## PHP Extensions Included - 
 
-### Core Extensions:
+### Core Extensions :
 
 * bcmath
 * bz2
@@ -31,13 +31,13 @@
 ### Additional Extensions :
 
 * imagick
-* mcrypt
+* mcrypt 1.0.0 (Using mcrypt 1.0.0 as support for PHP 7.1 has been dropped in later versions)
 * mongodb
 * sodium
 * Zend Optimizer Plus (Opcache)
-* Xdebug 2.7.0 Beta 1
+* Xdebug
 * [Tideways PHP Profiler](https://github.com/tideways/php-profiler-extension.git)
-* Uploadprogress Modfied Version from [here](https://github.com/Jan-E/uploadprogress)
+* Uploadprogress
 * Memcached
 
 ### Extensions for sending email :

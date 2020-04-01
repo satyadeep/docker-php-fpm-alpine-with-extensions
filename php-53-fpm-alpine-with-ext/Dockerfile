@@ -39,7 +39,6 @@ RUN apk add --no-cache --virtual .build-deps \
             pcre-dev\
             # to build xdebug from PECL
             $PHPIZE_DEPS \
-    #####   Using Xdebug 2.4.1 as support for PHP 5.4 has been dropped in later versions   #####
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install \
         bcmath \
@@ -75,6 +74,7 @@ RUN apk add --no-cache --virtual .build-deps \
                 && make install \
                 && cd .. \
         ) \
+    #####   Using Xdebug 2.2 as support for PHP 5.3 has been dropped in later versions   #####
           && git clone --branch xdebug_2_2 https://github.com/xdebug/xdebug.git /tmp/xdebug \
         && ( \
                 cd /tmp/xdebug \
