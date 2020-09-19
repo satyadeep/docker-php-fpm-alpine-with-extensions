@@ -40,6 +40,11 @@
 * Uploadprogress Modfied Version from [here](https://github.com/Jan-E/uploadprogress)
 * Memcached
 
+### Other Tools :
+* composer
+* wp-cli
+<em>(These can be used from within the container)</em>
+
 ### Extension for sending email :
 
 * msmtp
