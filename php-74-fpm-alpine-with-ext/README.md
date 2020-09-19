@@ -44,7 +44,7 @@
 * composer
 * wp-cli
 
-<em>(These can be used from within the container)</em>
+<em>(composer and wp-cli can be used from within the container)</em>
 
 
 ### Extension for sending email :
