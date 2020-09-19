@@ -41,9 +41,15 @@ RUN apk add --no-cache --virtual .build-deps \
             # for ldap
             openldap-dev \
             # to build xdebug from PECL
+            # for gd
+            libxpm-dev \
+            libvpx-dev \
+            # for xsl
+            libgcrypt-dev \
             $PHPIZE_DEPS \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-     && docker-php-ext-install \
+    && apk add libbz2 freetype libjpeg-turbo libpng libxpm libintl icu-libs libldap libmcrypt libvpx libxslt imagemagick \
+    && docker-php-ext-configure gd --with-gd --with-jpeg-dir --with-png-dir --with-zlib-dir --with-xpm-dir --with-freetype-dir --enable-gd-native-ttf  --with-vpx-dir\
+    && docker-php-ext-install \
          bcmath \
          bz2 \
          calendar \
@@ -85,7 +91,8 @@ RUN apk add --no-cache --virtual .build-deps \
         && pecl install xhprof-0.9.4 \
         && pecl install uploadprogress \
         && printf "\n" | pecl install imagick \
-        && pecl install mongodb \
+        #####   Using mongodb 1.7.5 as support for PHP 5.X has been dropped in later versions   #####
+        && pecl install mongodb-1.7.5 \
         #####   Using memcache 2.2.7 as 3.0.8 won't load even though it installs 
         # and support for PHP 5.X has been dropped in later versions   #####
         && pecl install memcache-2.2.7 \
@@ -117,6 +124,10 @@ RUN apk add --no-cache --virtual .build-deps \
     && php -r "if (hash_file('SHA384', 'composer-setup.php') === trim(file_get_contents('signature'))) { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
     && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
     && php -r "unlink('composer-setup.php');" \
+# Install WP-CLI
+    && curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+    && chmod +x wp-cli.phar \
+    && mv wp-cli.phar /usr/local/bin/wp \
 # Install msmtp - To Send Mails on Production & Development
     && apk add msmtp \
     \

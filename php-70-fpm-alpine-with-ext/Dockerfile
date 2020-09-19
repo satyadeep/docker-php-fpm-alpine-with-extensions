@@ -39,12 +39,18 @@ RUN apk add --no-cache --virtual .build-deps \
             libxml2-dev \
             # for xsl
             libxslt-dev \
+            libgcrypt-dev \
             libzip-dev \
+            # for gd
+            libxpm-dev \
+            libwebp-dev \
             # for ldap
             openldap-dev \
             # to build xdebug from PECL
             $PHPIZE_DEPS \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    # && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && apk add libbz2 freetype libjpeg-turbo libpng libxpm libintl icu-libs libldap libmcrypt libwebp libxslt imagemagick \
+    && docker-php-ext-configure gd --with-gd --with-jpeg-dir --with-png-dir --with-zlib-dir --with-xpm-dir --with-freetype-dir --enable-gd-native-ttf  --with-webp-dir\
      && docker-php-ext-install \
          bcmath \
          bz2 \
@@ -117,6 +123,10 @@ RUN apk add --no-cache --virtual .build-deps \
     && php -r "if (hash_file('SHA384', 'composer-setup.php') === trim(file_get_contents('signature'))) { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
     && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
     && php -r "unlink('composer-setup.php');" \
+# Install WP-CLI
+    && curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+    && chmod +x wp-cli.phar \
+    && mv wp-cli.phar /usr/local/bin/wp \
 # Install msmtp - To Send Mails on Production & Development
     && apk add msmtp \
     \

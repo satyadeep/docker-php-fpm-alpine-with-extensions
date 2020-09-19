@@ -32,14 +32,18 @@ RUN apk add --no-cache --virtual .build-deps \
             libmemcached-dev \
             # for soap
             libxml2-dev \
+            # for gd
+            libxpm-dev \
             # for xsl
             libxslt-dev \
+            libgcrypt-dev \
             # for ldap
             openldap-dev \
             pcre-dev\
             # to build xdebug from PECL
             $PHPIZE_DEPS \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && apk add libbz2 freetype libjpeg-turbo libpng libxpm libintl icu-libs libldap libmcrypt libxslt \
+    && docker-php-ext-configure gd --with-gd --with-jpeg-dir --with-png-dir --with-zlib-dir --with-xpm-dir --with-freetype-dir --enable-gd-native-ttf \
     && docker-php-ext-install \
         bcmath \
         bz2 \
