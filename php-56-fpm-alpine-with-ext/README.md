@@ -33,7 +33,7 @@
 ### Additional Extensions :
 
 * imagick
-* mongodb Version 1.5.3
+* mongodb 1.7.5 as support for PHP 5.X has been dropped in later versions
 * Zend Optimizer Plus (Opcache)
 * Xdebug Version 2.5.5 (As this is the last version compatible with PHP 5)
 * Twig 1.36 (As this is the last version compatible with PHP 5)
