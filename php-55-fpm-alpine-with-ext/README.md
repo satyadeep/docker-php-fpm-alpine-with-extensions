@@ -41,6 +41,14 @@
 * Uploadprogress
 * Memcache 2.2.7 (Using memcache 2.2.7 as 3.0.8 won't load even though it installs and support for PHP 5.X has been dropped in later versions)
 
+
+### Other Tools :
+* composer
+* wp-cli
+
+<em>(composer and wp-cli can be used from within the container)</em>
+
+
 ### Extension for sending email :
 
 * msmtp
