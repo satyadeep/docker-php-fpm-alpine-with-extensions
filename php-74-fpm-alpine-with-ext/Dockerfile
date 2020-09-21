@@ -2,8 +2,8 @@ FROM php:7.4-fpm-alpine
 
 LABEL MAINTAINER="SATYADEEP G" \
       "GitHub Link"="https://github.com/satyadeep" \
-      "PHP Version"="7.4.4" \
-      "Alpine Linux Version"="3.11"
+      "PHP Version"="7.4.10" \
+      "Alpine Linux Version"="3.12"
 
 RUN apk add --no-cache --virtual .build-deps \
             # for all
