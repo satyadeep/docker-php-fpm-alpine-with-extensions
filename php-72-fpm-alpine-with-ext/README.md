@@ -36,7 +36,7 @@
 * sodium
 * Zend Optimizer Plus (Opcache)
 * Xdebug
-* [Tideways PHP Profiler](https://github.com/tideways/php-profiler-extension.git)
+* XHProf
 * Uploadprogress
 * Memcached
 

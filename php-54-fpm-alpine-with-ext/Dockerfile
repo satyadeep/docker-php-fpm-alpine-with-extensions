@@ -6,85 +6,85 @@ LABEL MAINTAINER="SATYADEEP G" \
       "Alpine Linux Version"="3.7.3"
 
 RUN apk add --no-cache --virtual .build-deps \
-            # for all
-            git \
-            #for bzip
-            bzip2-dev \
-            #for curl
-            curl-dev \
-            # for intl extension
-            gettext-dev \
-            zlib-dev \
-            fcgi \
-            # for imagick
-            autoconf \
-            imagemagick-dev\
-            libtool\
-            # dev deps for gd
-            freetype-dev \
-            libjpeg-turbo-dev \
-            libpng-dev \
-            # for intl
-            icu-dev \
-            #for imap
-            imap-dev \
-             #for mysql
-            mariadb-dev \
-            # for mcrypt
-            libmcrypt-dev \
-            # for memcache
-            libmemcached-dev \
-            # for soap
-            libxml2-dev \
-            # for xsl
-            libxslt-dev \
-            # for ldap
-            openldap-dev \
-            pcre-dev \
-            # for gd
-            libxpm-dev \
-            # libvpx-dev \
-            # for xsl
-            libgcrypt-dev \
-            # to build xdebug from PECL
-            $PHPIZE_DEPS \
+        # for all
+        git \
+        #for bzip
+        bzip2-dev \
+        #for curl
+        curl-dev \
+        # for intl extension
+        gettext-dev \
+        zlib-dev \
+        fcgi \
+        # for imagick
+        autoconf \
+        imagemagick-dev\
+        libtool\
+        # dev deps for gd
+        freetype-dev \
+        libjpeg-turbo-dev \
+        libpng-dev \
+        # for intl
+        icu-dev \
+        #for imap
+        imap-dev \
+        #for mysql
+        mariadb-dev \
+        # for mcrypt
+        libmcrypt-dev \
+        # for memcache
+        libmemcached-dev \
+        # for soap
+        libxml2-dev \
+        # for xsl
+        libxslt-dev \
+        # for ldap
+        openldap-dev \
+        pcre-dev \
+        # for gd
+        libxpm-dev \
+        # libvpx-dev \
+        # for xsl
+        libgcrypt-dev \
+        # to build xdebug from PECL
+        $PHPIZE_DEPS \
     && apk add libbz2 freetype libjpeg-turbo libpng libxpm libintl icu-libs libldap libmcrypt libxslt imagemagick \
     && docker-php-ext-configure gd --with-gd --with-jpeg-dir --with-png-dir --with-zlib-dir --with-xpm-dir --with-freetype-dir --enable-gd-native-ttf  \
     && docker-php-ext-install \
-         bcmath \
-         bz2 \
-         calendar \
-         curl \
-         exif \
-         fileinfo \
-         ftp \
-         gd \
-         gettext \
-         imap \
-         intl \
-         ldap \
-         mbstring \
-         mcrypt \
-         mysql \
-         mysqli \
-         pdo \
-         pdo_mysql \
-         soap \
-         sysvsem \
-         sysvshm \
-         xmlrpc \
-         xsl \
-         zip \
+            bcmath \
+            bz2 \
+            calendar \
+            curl \
+            exif \
+            fileinfo \
+            ftp \
+            gd \
+            gettext \
+            imap \
+            intl \
+            ldap \
+            mbstring \
+            mcrypt \
+            mysql \
+            mysqli \
+            pdo \
+            pdo_mysql \
+            soap \
+            sysvsem \
+            sysvshm \
+            xmlrpc \
+            xsl \
+            zip \
     && git clone https://github.com/zendtech/ZendOptimizerPlus.git /tmp/ZendOptimizerPlus \
-        && ( \
-                cd /tmp/ZendOptimizerPlus \
-                && phpize \
-                && ./configure \
-                && make -j$(nproc) \
-                && make install \
-                && cd .. \
+    && ( \
+            cd /tmp/ZendOptimizerPlus \
+            && phpize \
+            && ./configure \
+            && make -j$(nproc) \
+            && make install \
+            && cd .. \
         ) \
-         && git clone --branch 1.x https://github.com/twigphp/Twig.git /tmp/twig \
+        && git clone --branch 1.x https://github.com/twigphp/Twig.git /tmp/twig \
         && ( \
                 cd /tmp/twig/ext/twig \
                 && phpize \
@@ -107,14 +107,14 @@ RUN apk add --no-cache --virtual .build-deps \
         && pecl install memcache-2.2.7 \
         && echo "Came till here" \
         && docker-php-ext-enable opcache \
-        xdebug \
-        xhprof \
-        imagick \
+            xdebug \
+            xhprof \
+            imagick \
         # mongodb requires PHP version >= 5.6.0, so installing mongo
-        mongo \
-        memcache \
-        twig \
-        uploadprogress \
+            mongo \
+            memcache \
+            twig \
+            uploadprogress \
         &&  echo -e "\n opcache.enable=1 \n opcache.enable_cli=1 \n opcache.memory_consumption=128 \n opcache.interned_strings_buffer=8 \n opcache.max_accelerated_files=4000 \n opcache.revalidate_freq=60 \n opcache.fast_shutdown=1" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
         &&  echo -e "\n xdebug.remote_enable=1 \n xdebug.remote_host=localhost \n xdebug.remote_port=9000" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
         &&  echo -e "\n xhprof.output_dir='/var/tmp/xhprof'" >> /usr/local/etc/php/conf.d/docker-php-ext-xhprof.ini \
@@ -123,11 +123,11 @@ RUN apk add --no-cache --virtual .build-deps \
     # and adds those (won't be removed when .build-deps are)
     && runDeps="$( \
             scanelf --needed --nobanner --recursive \
-                /usr/local/lib/php/extensions \
-                | awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' \
-                | sort -u \
-                | xargs -r apk info --installed \
-                | sort -u \
+            /usr/local/lib/php/extensions \
+            | awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' \
+            | sort -u \
+            | xargs -r apk info --installed \
+            | sort -u \
         )" \
 # Install composer
     && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
@@ -146,11 +146,11 @@ RUN apk add --no-cache --virtual .build-deps \
     && apk del .build-deps
 
 # modify www-data user to have id 1000
-    RUN apk add \
-    --no-cache \
-    --repository http://dl-3.alpinelinux.org/alpine/edge/community/ --allow-untrusted \
-    --virtual .shadow-deps \
-    shadow \
+RUN apk add \
+        --no-cache \
+        --repository http://dl-3.alpinelinux.org/alpine/edge/community/ --allow-untrusted \
+        --virtual .shadow-deps \
+        shadow \
     && usermod -u 1000 www-data \
     && groupmod -g 1000 www-data \
     && apk del .shadow-deps

@@ -36,7 +36,7 @@
 * sodium
 * Zend Optimizer Plus (Opcache)
 * Xdebug 2.9.0 (Using Xdebug 2.9.0 as support for PHP 7.0 has been dropped in later versions)
-* [Tideways PHP Profiler](https://github.com/tideways/php-profiler-extension.git)
+* XHProf
 * Uploadprogress
 * Memcached
 

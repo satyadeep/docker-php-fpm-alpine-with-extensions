@@ -7,4 +7,6 @@
 * PHP 7.0 is based on Alpine Linux 3.7
 * PHP 7.1, 7.2, 7.3 & 7.4 are based on Alpine Linux 3.12
 
+Using PHP Esntension Installer script from [here](https://github.com/mlocati/docker-php-extension-installer)
+
 **Please see inside the respective folders to know in detail, which extensions have been pre-installed for each version**
