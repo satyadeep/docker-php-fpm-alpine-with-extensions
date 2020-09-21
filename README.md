@@ -1,4 +1,4 @@
-# PHP FPM Versions 5.3, 5.4, 5.5, 5.6, 7.0, 7.1, 7.2 & 7.3 Docker Images with different Extensions installed
+# PHP FPM Versions 5.3, 5.4, 5.5, 5.6, 7.0, 7.1, 7.2, 7.3 & 7.4 Docker Images with different Extensions installed
 
 Please note that this is the **production branch** and the images in this branch **DO NOT include XDebug and XHProf and are suitable for production***
 
