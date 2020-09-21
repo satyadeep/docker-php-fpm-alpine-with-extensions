@@ -35,9 +35,7 @@
 * imagick
 * mongodb 1.7.5 as support for PHP 5.X has been dropped in later versions
 * Zend Optimizer Plus (Opcache)
-* Xdebug Version 2.5.5 (As this is the last version compatible with PHP 5)
 * Twig 1.36 (As this is the last version compatible with PHP 5)
-* XHProf (Using Xhprof 0.9.4 as support for PHP 5.X has been dropped in later versions)
 * Uploadprogress
 * Memcache Version 2.2.7 (Using memcache 2.2.7 as 3.0.8 won't load even though it installs and support for PHP 5.X has been dropped in later versions)
 

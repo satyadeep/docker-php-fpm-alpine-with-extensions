@@ -35,8 +35,6 @@
 * mongodb
 * sodium
 * Zend Optimizer Plus (Opcache)
-* Xdebug 2.9.0 (Using Xdebug 2.9.0 as support for PHP 7.0 has been dropped in later versions)
-* XHProf
 * Uploadprogress
 * Memcached
 

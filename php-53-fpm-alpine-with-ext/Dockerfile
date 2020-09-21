@@ -78,16 +78,6 @@ RUN apk add --no-cache --virtual .build-deps \
             && make install \
             && cd .. \
         ) \
-    #####   Using Xdebug 2.2 as support for PHP 5.3 has been dropped in later versions   #####
-        && git clone --branch xdebug_2_2 https://github.com/xdebug/xdebug.git /tmp/xdebug \
-        && ( \
-            cd /tmp/xdebug \
-            && phpize \
-            && ./configure \
-            && make -j$(nproc) \
-            && make install \
-            && cd .. \
-        ) \
         && git clone --branch 1.x https://github.com/twigphp/Twig.git /tmp/twig \
         && ( \
             cd /tmp/twig/ext/twig \
@@ -98,10 +88,7 @@ RUN apk add --no-cache --virtual .build-deps \
             && cd .. \
         ) \
         && rm -r /tmp/ZendOptimizerPlus  \
-        && rm -r /tmp/xdebug  \
         && rm -r /tmp/twig \
-        #####   Using Xhprof 0.9.4 as support for PHP 5.X has been dropped in later versions   #####
-        && pecl install xhprof-0.9.4 \
         && pecl install uploadprogress \
         # && pecl install imagick \  #requires PHP (version >= 5.4.0)       
         && pecl install mongo \
@@ -109,8 +96,6 @@ RUN apk add --no-cache --virtual .build-deps \
         # and support for PHP 5.X has been dropped in later versions   #####
         && pecl install memcache-2.2.7 \
         && docker-php-ext-enable opcache \
-            xdebug \
-            xhprof \
             # imagick \ #requires PHP (version >= 5.4.0)
             mongo \
             memcache \

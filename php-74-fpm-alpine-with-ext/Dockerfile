@@ -36,8 +36,6 @@ RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS \
             sodium \
             sysvsem \
             sysvshm \
-            xdebug \
-            xhprof \
             xmlrpc \
             xsl \
             zip \

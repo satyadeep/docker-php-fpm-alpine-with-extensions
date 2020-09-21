@@ -95,10 +95,6 @@ RUN apk add --no-cache --virtual .build-deps \
         ) \
         && rm -r /tmp/ZendOptimizerPlus  \
         && rm -r /tmp/twig \
-        #####   Using Xdebug 2.2.7 as support for PHP 5.4 has been dropped in later versions   #####
-        && pecl install xdebug-2.2.7 \
-        #####   Using Xhprof 0.9.4 as support for PHP 5.X has been dropped in later versions   #####
-        && pecl install xhprof-0.9.4  \
         && pecl install uploadprogress \
         && printf "\n" | pecl install imagick \
         && pecl install mongo \
@@ -107,8 +103,6 @@ RUN apk add --no-cache --virtual .build-deps \
         && pecl install memcache-2.2.7 \
         && echo "Came till here" \
         && docker-php-ext-enable opcache \
-            xdebug \
-            xhprof \
             imagick \
         # mongodb requires PHP version >= 5.6.0, so installing mongo
             mongo \

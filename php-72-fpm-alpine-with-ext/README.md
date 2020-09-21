@@ -35,8 +35,6 @@
 * mongodb
 * sodium
 * Zend Optimizer Plus (Opcache)
-* Xdebug
-* XHProf
 * Uploadprogress
 * Memcached
 

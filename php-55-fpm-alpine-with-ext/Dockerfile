@@ -48,8 +48,6 @@ RUN apk add --no-cache --virtual .build-deps git autoconf  $PHPIZE_DEPS \
             soap \
             sysvsem \
             sysvshm \
-            xdebug \
-            xhprof \
             xmlrpc \
             xsl \
             zip \
