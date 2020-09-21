@@ -3,7 +3,7 @@ FROM php:7.4-fpm-alpine
 LABEL MAINTAINER="SATYADEEP G" \
       "GitHub Link"="https://github.com/satyadeep" \
       "PHP Version"="7.4.10" \
-      "Alpine Linux Version"="3.11"
+      "Alpine Linux Version"="3.12"
 
 ADD https://raw.githubusercontent.com/mlocati/docker-php-extension-installer/master/install-php-extensions /usr/local/bin/
 
