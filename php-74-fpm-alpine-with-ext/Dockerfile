@@ -55,7 +55,8 @@ RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS \
     && chmod +x wp-cli.phar \
     && mv wp-cli.phar /usr/local/bin/wp \
 # Install msmtp - To Send Mails on Production & Development
-    && apk add msmtp
+    && apk add msmtp \
+    git
 # modify www-data user to have id 1000
 RUN apk add \
         --no-cache \
