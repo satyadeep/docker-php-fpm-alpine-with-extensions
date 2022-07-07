@@ -8,7 +8,7 @@ Please note that this is the **development branch** and the images in this branc
 * PHP 5.5 & 5.6 are based on Alpine Linux 3.8
 * PHP 7.0 is based on Alpine Linux 3.7
 * PHP 7.1, 7.2, 7.3 & 7.4 are based on Alpine Linux 3.12
-* PHP 8.1 is based on Alpine Linux 3.15
+* PHP 8.1 is based on Alpine Linux 3.16
 
 Using PHP Extension Installer script from [here](https://github.com/mlocati/docker-php-extension-installer)
 
