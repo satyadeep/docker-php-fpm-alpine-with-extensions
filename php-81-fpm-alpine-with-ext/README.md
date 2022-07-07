@@ -1,4 +1,4 @@
-# PHP FPM 8.1.5 based on Alpine Linux 3.15
+# PHP FPM 8.1.7 based on Alpine Linux 3.16
 
 ## PHP Extensions Included -
 
