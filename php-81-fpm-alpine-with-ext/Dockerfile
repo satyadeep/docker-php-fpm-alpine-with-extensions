@@ -1,9 +1,9 @@
-FROM php:8.1.5-fpm-alpine3.15
+FROM php:8.1.7-fpm-alpine3.16
 
 LABEL MAINTAINER="SATYADEEP G" \
       "GitHub Link"="https://github.com/satyadeep" \
-      "PHP Version"="8.1.5" \
-      "Alpine Linux Version"="3.15"
+      "PHP Version"="8.1.7" \
+      "Alpine Linux Version"="3.16"
 
 ADD https://raw.githubusercontent.com/mlocati/docker-php-extension-installer/master/install-php-extensions /usr/local/bin/
 
