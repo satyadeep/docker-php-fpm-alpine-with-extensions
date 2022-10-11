@@ -1,4 +1,4 @@
-# PHP FPM 7.3 based on Alpine Linux 3.12
+# PHP FPM 7.3.33 based on Alpine Linux 3.15
 
 ## PHP Extensions Included -
 
@@ -21,6 +21,7 @@
 * opcache
 * pdo
 * pdo_mysql
+* redis
 * soap
 * sysvsem
 * sysvshm
