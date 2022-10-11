@@ -1,4 +1,4 @@
-# PHP FPM 8.1.7 based on Alpine Linux 3.16
+# PHP FPM 8.1.11 based on Alpine Linux 3.16
 
 ## PHP Extensions Included -
 
@@ -22,6 +22,7 @@
 * openssl
 * pdo
 * pdo_mysql
+* redis
 * soap
 * sysvsem
 * sysvshm

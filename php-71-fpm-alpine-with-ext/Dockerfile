@@ -33,6 +33,7 @@ RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS \
             opcache \
             pdo \
             pdo_mysql \
+            redis \
             soap \
             sysvsem \
             sysvshm \

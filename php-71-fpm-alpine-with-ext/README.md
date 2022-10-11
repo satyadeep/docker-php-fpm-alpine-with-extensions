@@ -21,6 +21,7 @@
 * opcache
 * pdo
 * pdo_mysql
+* redis
 * soap
 * sysvsem
 * sysvshm

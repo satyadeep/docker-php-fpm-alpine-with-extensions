@@ -1,8 +1,8 @@
-FROM php:8.1.7-fpm-alpine3.16
+FROM php:8.1-fpm-alpine
 
 LABEL MAINTAINER="SATYADEEP G" \
       "GitHub Link"="https://github.com/satyadeep" \
-      "PHP Version"="8.1.7" \
+      "PHP Version"="8.1.11" \
       "Alpine Linux Version"="3.16"
 
 ADD https://raw.githubusercontent.com/mlocati/docker-php-extension-installer/master/install-php-extensions /usr/local/bin/
@@ -34,6 +34,7 @@ RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS \
             openssl \
             pdo \
             pdo_mysql \
+            redis \
             soap \
             sodium \
             sysvsem \
