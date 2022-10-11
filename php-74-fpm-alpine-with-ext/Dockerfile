@@ -1,4 +1,4 @@
-FROM php:7.4-fpm-alpine3.16
+FROM php:7.4-fpm-alpine
 
 LABEL MAINTAINER="SATYADEEP G" \
       "GitHub Link"="https://github.com/satyadeep" \

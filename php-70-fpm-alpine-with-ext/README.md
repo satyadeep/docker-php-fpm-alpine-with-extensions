@@ -1,4 +1,4 @@
-# PHP FPM 7.0 based on Alpine Linux 3.7
+# PHP FPM 7.0.33 based on Alpine Linux 3.7
 
 ## PHP Extensions Included -
 
