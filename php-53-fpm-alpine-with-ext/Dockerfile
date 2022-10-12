@@ -79,6 +79,7 @@ RUN apk add --no-cache --virtual .build-deps \
             && cd .. \
         ) \
         && git clone --branch 1.x https://github.com/satyadeep/Twig.git /tmp/twig \
+	&& cd /tmp/twig \
 	&& git checkout 0fc3341a398171c6bab43b277caecfaa1ef4e026 \
         && ( \
             cd /tmp/twig/ext/twig \
