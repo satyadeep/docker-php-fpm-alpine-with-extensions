@@ -20,7 +20,7 @@ RUN apk add --no-cache --virtual .build-deps git autoconf  $PHPIZE_DEPS \
         && cd .. \
         ) \
         && rm -r /tmp/twig \
-        && pecl install uploadprogress \
+        && pecl install uploadprogress-1.1.4 \
         && docker-php-ext-enable twig \
             uploadprogress \
         && apk del .build-deps git autoconf $PHPIZE_DEPS \
