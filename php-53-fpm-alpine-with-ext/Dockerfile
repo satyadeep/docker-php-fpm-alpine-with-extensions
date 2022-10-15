@@ -91,7 +91,8 @@ RUN apk add --no-cache --virtual .build-deps \
         ) \
         && rm -r /tmp/ZendOptimizerPlus  \
         && rm -r /tmp/twig \
-        && pecl install uploadprogress \
+        && pecl install uploadprogress-1.1.4 \
+        # https://pecl.php.net/package-changelog.php?package=uploadprogress&release=1.0.3
         # && pecl install imagick \  #requires PHP (version >= 5.4.0)       
         && pecl install mongo \
         #####   Using memcache 2.2.7 as 3.0.8 won't load even though it installs 

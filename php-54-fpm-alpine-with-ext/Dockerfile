@@ -49,7 +49,8 @@ RUN apk add --no-cache --virtual .build-deps \
         # to build xdebug from PECL
         $PHPIZE_DEPS \
     && apk add libbz2 freetype libjpeg-turbo libpng libxpm libintl icu-libs libldap libmcrypt libxslt imagemagick \
-    && docker-php-ext-configure gd --with-gd --with-jpeg-dir --with-png-dir --with-zlib-dir --with-xpm-dir --with-freetype-dir --enable-gd-native-ttf  \
+    && wget 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD' -O config.guess \
+    && docker-php-ext-configure gd --with-gd --with-jpeg-dir --with-png-dir --with-zlib-dir --with-xpm-dir --with-freetype-dir --enable-gd-native-ttf  --build=aarch64-unknown-linux-gnu\
     && docker-php-ext-install \
             bcmath \
             bz2 \
@@ -97,7 +98,8 @@ RUN apk add --no-cache --virtual .build-deps \
         ) \
         && rm -r /tmp/ZendOptimizerPlus  \
         && rm -r /tmp/twig \
-        && pecl install uploadprogress \
+        && pecl install uploadprogress-1.1.4 \
+        # https://pecl.php.net/package-changelog.php?package=uploadprogress&release=1.0.3
         && printf "\n" | pecl install imagick \
         && pecl install mongo \
         #####   Using memcache 2.2.7 as 3.0.8 won't load even though it installs 
