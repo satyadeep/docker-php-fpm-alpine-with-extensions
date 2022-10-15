@@ -89,7 +89,8 @@ RUN apk add --no-cache --virtual .build-deps \
             && cd .. \
         ) \
         && git clone --branch 1.x https://github.com/satyadeep/Twig.git /tmp/twig \
-	&& git checkout 0fc3341a398171c6bab43b277caecfaa1ef4e026 \
+        && cd /tmp/twig \
+        && git checkout 0fc3341a398171c6bab43b277caecfaa1ef4e026 \
         && ( \
             cd /tmp/twig/ext/twig \
             && phpize \
@@ -103,7 +104,8 @@ RUN apk add --no-cache --virtual .build-deps \
         && rm -r /tmp/twig \
         #####   Using Xhprof 0.9.4 as support for PHP 5.X has been dropped in later versions   #####
         && pecl install xhprof-0.9.4 \
-        && pecl install uploadprogress \
+        && pecl install uploadprogress-1.1.4 \
+        # https://pecl.php.net/package-changelog.php?package=uploadprogress&release=1.0.3
         # && pecl install imagick \  #requires PHP (version >= 5.4.0)       
         && pecl install mongo \
         #####   Using memcache 2.2.7 as 3.0.8 won't load even though it installs 
@@ -131,6 +133,7 @@ RUN apk add --no-cache --virtual .build-deps \
                 | xargs -r apk info --installed \
                 | sort -u \
         )" \
+    && cd ~ \
 # Install composer
     && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php -r "copy('https://composer.github.io/installer.sig', 'signature');" \

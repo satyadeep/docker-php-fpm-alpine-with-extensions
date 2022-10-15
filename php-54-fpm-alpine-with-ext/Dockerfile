@@ -49,7 +49,8 @@ RUN apk add --no-cache --virtual .build-deps \
         # to build xdebug from PECL
         $PHPIZE_DEPS \
     && apk add libbz2 freetype libjpeg-turbo libpng libxpm libintl icu-libs libldap libmcrypt libxslt imagemagick \
-    && docker-php-ext-configure gd --with-gd --with-jpeg-dir --with-png-dir --with-zlib-dir --with-xpm-dir --with-freetype-dir --enable-gd-native-ttf  \
+    && wget 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD' -O config.guess \
+    && docker-php-ext-configure gd --with-gd --with-jpeg-dir --with-png-dir --with-zlib-dir --with-xpm-dir --with-freetype-dir --enable-gd-native-ttf  --build=aarch64-unknown-linux-gnu\
     && docker-php-ext-install \
             bcmath \
             bz2 \
@@ -85,6 +86,7 @@ RUN apk add --no-cache --virtual .build-deps \
             && cd .. \
         ) \
         && git clone --branch 1.x https://github.com/satyadeep/Twig.git /tmp/twig \
+	&& cd /tmp/twig \
 	&& git checkout 0fc3341a398171c6bab43b277caecfaa1ef4e026 \
         && ( \
                 cd /tmp/twig/ext/twig \
@@ -100,13 +102,13 @@ RUN apk add --no-cache --virtual .build-deps \
         && pecl install xdebug-2.2.7 \
         #####   Using Xhprof 0.9.4 as support for PHP 5.X has been dropped in later versions   #####
         && pecl install xhprof-0.9.4  \
-        && pecl install uploadprogress \
+        && pecl install uploadprogress-1.1.4 \
+         # https://pecl.php.net/package-changelog.php?package=uploadprogress&release=1.0.3
         && printf "\n" | pecl install imagick \
         && pecl install mongo \
         #####   Using memcache 2.2.7 as 3.0.8 won't load even though it installs 
         # and support for PHP 5.X has been dropped in later versions   #####
         && pecl install memcache-2.2.7 \
-        && echo "Came till here" \
         && docker-php-ext-enable opcache \
             xdebug \
             xhprof \
@@ -130,6 +132,7 @@ RUN apk add --no-cache --virtual .build-deps \
             | xargs -r apk info --installed \
             | sort -u \
         )" \
+    && cd ~ \
 # Install composer
     && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php -r "copy('https://composer.github.io/installer.sig', 'signature');" \
