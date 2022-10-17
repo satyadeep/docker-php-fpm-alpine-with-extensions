@@ -54,3 +54,6 @@
 
   To build this image, just run  
 ```docker image build -t  imagename .```
+
+  MultiArch Build
+```docker buildx build --push --platform linux/arm64,linux/amd64 --tag  imagename . ```

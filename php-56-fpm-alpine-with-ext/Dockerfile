@@ -1,4 +1,4 @@
-FROM satyadeep/php-56-fpm-alpine:latest
+FROM php:5.6-fpm-alpine
 
 LABEL MAINTAINER="SATYADEEP G" \
       "GitHub Link"="https://github.com/satyadeep" \
@@ -6,7 +6,8 @@ LABEL MAINTAINER="SATYADEEP G" \
       "Alpine Linux Version"="3.8.4"
 
 ADD https://raw.githubusercontent.com/mlocati/docker-php-extension-installer/master/install-php-extensions /usr/local/bin/
-
+COPY  xhprof-0.9.4.tgz /tmp
+ARG TARGETARCH
 RUN apk add --no-cache --virtual .build-deps git autoconf  $PHPIZE_DEPS \
         && git clone --branch 1.x https://github.com/satyadeep/Twig.git /tmp/twig \
 	&& cd /tmp/twig \
@@ -22,10 +23,31 @@ RUN apk add --no-cache --virtual .build-deps git autoconf  $PHPIZE_DEPS \
         && rm -r /tmp/twig \
         && pecl install uploadprogress-1.1.4 \
         # https://pecl.php.net/package-changelog.php?package=uploadprogress&release=1.0.3
+        && ( \
+         if [ "arm64" = "${TARGETARCH}" ]; then \
+                cd /tmp \
+                tar zxf xhprof-0.9.4.tgz \
+                cd xhprof-0.9.4/extension \
+                phpize \
+                ./configure --with-php-config=/usr/bin/php-config5 \
+                make \
+                make install \
+                cd ~ \
+                docker-php-ext-enable xhprof \
+                rm /tmp/xhprof-0.9.4.tgz \
+                rm -rf /tmp/xhprof-0.9.4/; \
+            fi; \
+            ) \
         && docker-php-ext-enable twig \
-            uploadprogress \
+        uploadprogress \
         && apk del .build-deps git autoconf $PHPIZE_DEPS \
     && chmod uga+x /usr/local/bin/install-php-extensions && sync \
+    && ( \ 
+        if [ "amd64" = "${TARGETARCH}" ]; then \
+            rm /tmp/xhprof-0.9.4.tgz \
+            && install-php-extensions  xhprof; \
+        fi; \
+        ) \
     && install-php-extensions bcmath \
             bz2 \
             calendar \
@@ -52,7 +74,6 @@ RUN apk add --no-cache --virtual .build-deps git autoconf  $PHPIZE_DEPS \
             sysvsem \
             sysvshm \
             xdebug \
-            xhprof \
             xmlrpc \
             xsl \
             zip \

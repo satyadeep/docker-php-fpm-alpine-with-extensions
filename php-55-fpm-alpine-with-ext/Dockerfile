@@ -6,26 +6,48 @@ LABEL MAINTAINER="SATYADEEP G" \
       "Alpine Linux Version"="3.8.4"
 
 ADD https://raw.githubusercontent.com/mlocati/docker-php-extension-installer/master/install-php-extensions /usr/local/bin/
-
+COPY  xhprof-0.9.4.tgz /tmp
+ARG TARGETARCH
 RUN apk add --no-cache --virtual .build-deps git autoconf  $PHPIZE_DEPS \
-    && git clone --branch 1.x https://github.com/satyadeep/Twig.git /tmp/twig \
-    && cd /tmp/twig \
-    && git checkout 0fc3341a398171c6bab43b277caecfaa1ef4e026 \
-    && ( \
-    cd /tmp/twig/ext/twig \
-    && phpize \
-    && ./configure \
-    && make -j$(nproc) \
-    && make install \
-    && cd .. \
-    ) \
-    && rm -r /tmp/twig \
-    && pecl install uploadprogress-1.1.4 \
-    # https://pecl.php.net/package-changelog.php?package=uploadprogress&release=1.0.3
-    && docker-php-ext-enable twig \
+        && git clone --branch 1.x https://github.com/satyadeep/Twig.git /tmp/twig \
+	&& cd /tmp/twig \
+	&& git checkout 0fc3341a398171c6bab43b277caecfaa1ef4e026 \
+        && ( \
+        cd /tmp/twig/ext/twig \
+        && phpize \
+        && ./configure \
+        && make -j$(nproc) \
+        && make install \
+        && cd .. \
+        ) \
+        && rm -r /tmp/twig \
+        && pecl install uploadprogress-1.1.4 \
+        # https://pecl.php.net/package-changelog.php?package=uploadprogress&release=1.0.3
+        && ( \
+         if [ "arm64" = "${TARGETARCH}" ]; then \
+                cd /tmp \
+                tar zxf xhprof-0.9.4.tgz \
+                cd xhprof-0.9.4/extension \
+                phpize \
+                ./configure --with-php-config=/usr/bin/php-config5 \
+                make \
+                make install \
+                cd ~ \
+                docker-php-ext-enable xhprof \
+                rm /tmp/xhprof-0.9.4.tgz \
+                rm -rf /tmp/xhprof-0.9.4/; \
+            fi; \
+            ) \
+        && docker-php-ext-enable twig \
         uploadprogress \
-    && apk del .build-deps git autoconf $PHPIZE_DEPS \
+        && apk del .build-deps git autoconf $PHPIZE_DEPS \
     && chmod uga+x /usr/local/bin/install-php-extensions && sync \
+    && ( \ 
+        if [ "amd64" = "${TARGETARCH}" ]; then \
+            rm /tmp/xhprof-0.9.4.tgz \
+            && install-php-extensions  xhprof; \
+        fi; \
+        ) \
     && install-php-extensions bcmath \
             bz2 \
             calendar \
@@ -52,19 +74,18 @@ RUN apk add --no-cache --virtual .build-deps git autoconf  $PHPIZE_DEPS \
             sysvsem \
             sysvshm \
             xdebug \
-            xhprof \
             xmlrpc \
             xsl \
             zip \
-    #####   Using Xdebug 2.5.5 as support for PHP 5.5 has been dropped in newer versions   #####
-    #####    Using shprof-0.9.4   #####
-    #####   Using memcache 2.2.7 as 3.0.8 won't load even though it installs 
-    # and support for PHP 5.X has been dropped in later versions   #####
-    # mongodb requires PHP version >= 5.6.0, so installing mongo
-    &&  echo -e "\n opcache.enable=1 \n opcache.enable_cli=1 \n opcache.memory_consumption=128 \n opcache.interned_strings_buffer=8 \n opcache.max_accelerated_files=4000 \n opcache.revalidate_freq=60 \n opcache.fast_shutdown=1" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
-    &&  echo -e "\n xdebug.remote_enable=1 \n xdebug.remote_host=localhost \n xdebug.remote_port=9000" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    &&  echo -e "\n xhprof.output_dir='/var/tmp/xhprof'" >> /usr/local/etc/php/conf.d/docker-php-ext-xhprof.ini \
-    && cd ~ \
+        #####   Using Xdebug 2.5.5 as support for PHP 5.6 has been dropped in newer versions   #####
+        #####   Using Xhprof 0.9.4 as support for PHP 5.X has been dropped in later versions   #####
+        #####   Using mongodb 1.7.5 as support for PHP 5.X has been dropped in later versions   #####
+        #####   Using memcache 2.2.7 as 3.0.8 won't load even though it installs 
+        # and support for PHP 5.X has been dropped in later versions   #####
+        &&  echo -e "\n opcache.enable=1 \n opcache.enable_cli=1 \n opcache.memory_consumption=128 \n opcache.interned_strings_buffer=8 \n opcache.max_accelerated_files=4000 \n opcache.revalidate_freq=60 \n opcache.fast_shutdown=1" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
+        &&  echo -e "\n xdebug.remote_enable=1 \n xdebug.remote_host=localhost \n xdebug.remote_port=9000" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+        &&  echo -e "\n xhprof.output_dir='/var/tmp/xhprof'" >> /usr/local/etc/php/conf.d/docker-php-ext-xhprof.ini \
+        && cd ~ \
 # Install composer
     && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php -r "copy('https://composer.github.io/installer.sig', 'signature');" \
