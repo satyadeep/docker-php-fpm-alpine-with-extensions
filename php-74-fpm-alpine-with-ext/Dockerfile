@@ -5,7 +5,7 @@ LABEL MAINTAINER="SATYADEEP G" \
       "PHP Version"="7.4.32" \
       "Alpine Linux Version"="3.16"
 
-ADD https://raw.githubusercontent.com/mlocati/docker-php-extension-installer/master/install-php-extensions /usr/local/bin/
+ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
 RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS \
     && pecl install uploadprogress \

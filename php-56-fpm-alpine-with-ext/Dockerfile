@@ -5,7 +5,7 @@ LABEL MAINTAINER="SATYADEEP G" \
       "PHP Version"="5.6.40" \
       "Alpine Linux Version"="3.8.4"
 
-ADD https://raw.githubusercontent.com/mlocati/docker-php-extension-installer/master/install-php-extensions /usr/local/bin/
+ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
 RUN apk add --no-cache --virtual .build-deps git autoconf  $PHPIZE_DEPS \
         && git clone --branch 1.x https://github.com/satyadeep/Twig.git /tmp/twig \
