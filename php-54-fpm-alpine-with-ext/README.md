@@ -1,4 +1,4 @@
-# PHP FPM 5.4 based on Alpine Linux 3.7.3
+# PHP FPM 5.5 based on Alpine Linux 3.8.4
 
 ## PHP Extensions Included -
 
@@ -20,6 +20,7 @@
 * mcrypt
 * mysql
 * mysqli
+* opcache
 * pdo
 * pdo_mysql
 * soap
@@ -32,7 +33,7 @@
 ### Additional Extensions :
 
 * imagick
-* mongo Version 1.6.16 (As this is the last verison compatible with PHP 5.X)
+* mongo Version 1.6.16 (As this is the last version compatible with PHP 5.X)
 * Zend Optimizer Plus (Opcache)
 * Twig 1.36 (As this is the last version compatible with PHP 5.X)
 * Uploadprogress
@@ -52,3 +53,6 @@
 
   To build this image, just run  
 ```docker image build -t  imagename .```
+
+  MultiArch Build
+```docker buildx build --push --platform linux/arm64,linux/amd64 --tag  imagename . ```

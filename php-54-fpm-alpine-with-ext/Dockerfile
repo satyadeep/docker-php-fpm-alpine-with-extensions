@@ -5,6 +5,9 @@ LABEL MAINTAINER="SATYADEEP G" \
       "PHP Version"="5.4.45" \
       "Alpine Linux Version"="3.7.3"
 
+COPY  install.sh /tmp/
+
+ARG TARGETARCH
 RUN apk add --no-cache --virtual .build-deps \
         # for all
         git \
@@ -48,9 +51,43 @@ RUN apk add --no-cache --virtual .build-deps \
         libgcrypt-dev \
         # to build xdebug from PECL
         $PHPIZE_DEPS \
+        wget \
     && apk add libbz2 freetype libjpeg-turbo libpng libxpm libintl icu-libs libldap libmcrypt libxslt imagemagick \
-    && wget 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD' -O config.guess \
-    && docker-php-ext-configure gd --with-gd --with-jpeg-dir --with-png-dir --with-zlib-dir --with-xpm-dir --with-freetype-dir --enable-gd-native-ttf  \
+    # Run the following for ARM64 only 
+    &&  ( \
+            if [ "arm64" = "${TARGETARCH}" ]; then \
+                 docker-php-ext-configure gd --with-gd --with-jpeg-dir --with-png-dir --with-zlib-dir --with-xpm-dir --with-freetype-dir --enable-gd-native-ttf --build=aarch64-unknown-linux-gnu  \
+                 && docker-php-ext-configure bcmath --build=aarch64-unknown-linux-gnu \
+                 && docker-php-ext-configure bz2 --build=aarch64-unknown-linux-gnu \
+                 && docker-php-ext-configure calendar --build=aarch64-unknown-linux-gnu \
+                 && docker-php-ext-configure curl --build=aarch64-unknown-linux-gnu \
+                 && docker-php-ext-configure exif --build=aarch64-unknown-linux-gnu \
+                 && docker-php-ext-configure fileinfo --build=aarch64-unknown-linux-gnu \
+                 && docker-php-ext-configure ftp --build=aarch64-unknown-linux-gnu \
+                 && docker-php-ext-configure gettext --build=aarch64-unknown-linux-gnu \
+                 && docker-php-ext-configure imap --build=aarch64-unknown-linux-gnu \
+                 && docker-php-ext-configure intl --build=aarch64-unknown-linux-gnu \
+                 && docker-php-ext-configure ldap --build=aarch64-unknown-linux-gnu \
+                 && docker-php-ext-configure mbstring --build=aarch64-unknown-linux-gnu \
+                 && docker-php-ext-configure mcrypt --build=aarch64-unknown-linux-gnu \
+                 && docker-php-ext-configure mysql --build=aarch64-unknown-linux-gnu \
+                 && docker-php-ext-configure mysqli --build=aarch64-unknown-linux-gnu \
+                 && docker-php-ext-configure pdo --build=aarch64-unknown-linux-gnu \
+                 && docker-php-ext-configure pdo_mysql --build=aarch64-unknown-linux-gnu \
+                 && docker-php-ext-configure soap --build=aarch64-unknown-linux-gnu \
+                 && docker-php-ext-configure sysvsem --build=aarch64-unknown-linux-gnu \
+                 && docker-php-ext-configure sysvshm --build=aarch64-unknown-linux-gnu \
+                 && docker-php-ext-configure xmlrpc --build=aarch64-unknown-linux-gnu \
+                 && docker-php-ext-configure xsl --build=aarch64-unknown-linux-gnu \
+                 && docker-php-ext-configure zip --build=aarch64-unknown-linux-gnu; \
+            fi; \
+        ) \
+   # Run the following for AMD64 only
+    && ( \ 
+                if [ "amd64" = "${TARGETARCH}" ]; then \
+                    docker-php-ext-configure gd --with-gd --with-jpeg-dir --with-png-dir --with-zlib-dir --with-xpm-dir --with-freetype-dir --enable-gd-native-ttf; \
+                fi; \
+        ) \
     && docker-php-ext-install \
             bcmath \
             bz2 \
@@ -77,45 +114,53 @@ RUN apk add --no-cache --virtual .build-deps \
             xsl \
             zip \
     && git clone https://github.com/zendtech/ZendOptimizerPlus.git /tmp/ZendOptimizerPlus \
-    && ( \
-            cd /tmp/ZendOptimizerPlus \
-            && phpize \
-            && ./configure \
-            && make -j$(nproc) \
-            && make install \
-            && cd .. \
-        ) \
-        && git clone --branch 1.x https://github.com/satyadeep/Twig.git /tmp/twig \
-	&& cd /tmp/twig \
+    && git clone --branch 1.x https://github.com/satyadeep/Twig.git /tmp/twig \
+    && cd /tmp/twig \
 	&& git checkout 0fc3341a398171c6bab43b277caecfaa1ef4e026 \
-        && ( \
-                cd /tmp/twig/ext/twig \
-                && phpize \
-                && ./configure \
-                && make -j$(nproc) \
-                && make install \
-                && cd .. \
+    && cd /tmp \
+    # Run the following for ARM64 only
+    && ( \
+            if [ "arm64" = "${TARGETARCH}" ]; then \
+                chmod +x /tmp/install.sh && \
+                cd /tmp && \
+                # Downloading the extensions manually and using custom script to build and install mongo /imagick / memcache / uploadprogress / opcache and twig installations (as they require the --build=aarch64-unknown-linux-gnu while configuring and pecl install won't allow that)
+                wget 'https://pecl.php.net/get/mongo' -O '/tmp/mongo-1.6.16.tgz' &&\
+                wget 'https://pecl.php.net/get/imagick-3.7.0.tgz' -O '/tmp/imagick-3.7.0.tgz' && \
+                wget 'https://pecl.php.net/get/memcache-2.2.7.tgz' -O '/tmp/memcache-2.2.7.tgz' && \
+                wget 'https://pecl.php.net/get/uploadprogress-1.1.4.tgz' -O '/tmp/uploadprogress-1.1.4.tgz' && \
+                ./install.sh mongo-1.6.16.tgz mongo-1.6.16/mongo-1.6.16 mongo /tmp/mongo-1.6.16/ arm64 && \
+                ./install.sh imagick-3.7.0.tgz imagick-3.7.0/imagick-3.7.0 imagick /tmp/imagick-3.7.0/ arm64 && \
+                ./install.sh memcache-2.2.7.tgz memcache-2.2.7/memcache-2.2.7 memcache /tmp/memcache-2.2.7/ arm64 && \
+                ./install.sh uploadprogress-1.1.4.tgz uploadprogress-1.1.4/uploadprogress-1.1.4 uploadprogress /tmp/uploadprogress-1.1.4/ arm64 && \
+                ./install.sh ZendOptimizerPlus /tmp/ZendOptimizerPlus opcache /tmp/ZendOptimizerPlus/ arm64 && \
+                ./install.sh twig /tmp/twig/ext/twig twig /tmp/twig/ arm64; \
+            fi; \
         ) \
-        && rm -r /tmp/ZendOptimizerPlus  \
-        && rm -r /tmp/twig \
-        && pecl install uploadprogress-1.1.4 \
-        # https://pecl.php.net/package-changelog.php?package=uploadprogress&release=1.0.3
-        && printf "\n" | pecl install imagick \
-        && pecl install mongo \
-        #####   Using memcache 2.2.7 as 3.0.8 won't load even though it installs 
-        # and support for PHP 5.X has been dropped in later versions   #####
-        && pecl install memcache-2.2.7 \
-        && echo "Came till here" \
-        && docker-php-ext-enable opcache \
-            imagick \
-        # mongodb requires PHP version >= 5.6.0, so installing mongo
-            mongo \
-            memcache \
-            twig \
-            uploadprogress \
+    # Run the following for AMD64 only
+    && ( \ 
+                if [ "amd64" = "${TARGETARCH}" ]; then \
+                    chmod +x /tmp/install.sh && \
+                    cd /tmp && \
+                    ./install.sh ZendOptimizerPlus /tmp/ZendOptimizerPlus opcache /tmp/ZendOptimizerPlus/ amd64 && \
+                    ./install.sh twig /tmp/twig/ext/twig twig /tmp/twig/ amd64 \
+                    && pecl install uploadprogress-1.1.4 \
+                     # https://pecl.php.net/package-changelog.php?package=uploadprogress&release=1.0.3
+                    && printf "\n" | pecl install imagick \
+                    && pecl install mongo \
+                    #####   Using memcache 2.2.7 as 3.0.8 won't load even though it installs 
+                    # and support for PHP 5.X has been dropped in later versions   #####
+                    && pecl install memcache-2.2.7 \
+                    && docker-php-ext-enable opcache \
+                    imagick \
+                    # mongodb requires PHP version >= 5.6.0, so installing mongo
+                    mongo \
+                    memcache \
+                    twig \
+                    uploadprogress; \
+                fi; \
+            ) \
+        && rm /tmp/install.sh \
         &&  echo -e "\n opcache.enable=1 \n opcache.enable_cli=1 \n opcache.memory_consumption=128 \n opcache.interned_strings_buffer=8 \n opcache.max_accelerated_files=4000 \n opcache.revalidate_freq=60 \n opcache.fast_shutdown=1" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
-        &&  echo -e "\n xdebug.remote_enable=1 \n xdebug.remote_host=localhost \n xdebug.remote_port=9000" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-        &&  echo -e "\n xhprof.output_dir='/var/tmp/xhprof'" >> /usr/local/etc/php/conf.d/docker-php-ext-xhprof.ini \
     # next will add runtime deps for php extensions
     # what this does is checks the necessary packages for php extensions Shared Objects
     # and adds those (won't be removed when .build-deps are)
@@ -127,6 +172,7 @@ RUN apk add --no-cache --virtual .build-deps \
             | xargs -r apk info --installed \
             | sort -u \
         )" \
+    && cd ~ \
 # Install composer
     && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php -r "copy('https://composer.github.io/installer.sig', 'signature');" \
@@ -139,14 +185,12 @@ RUN apk add --no-cache --virtual .build-deps \
     && mv wp-cli.phar /usr/local/bin/wp \
 # Install msmtp - To Send Mails on Production & Development
     && apk add msmtp \
-    \
     && apk add --virtual .phpexts-rundeps $runDeps \
     && apk del .build-deps
-
 # modify www-data user to have id 1000
 RUN apk add \
         --no-cache \
-        --repository http://dl-3.alpinelinux.org/alpine/edge/community/ --allow-untrusted \
+        --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ --allow-untrusted \
         --virtual .shadow-deps \
         shadow \
     && usermod -u 1000 www-data \
