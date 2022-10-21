@@ -15,3 +15,6 @@ Please note that this is the **production branch** and the images in this branch
 Using PHP Extension Installer script from [here](https://github.com/mlocati/docker-php-extension-installer)
 
 **Please see inside the respective folders to know in detail, which extensions have been pre-installed for each version**
+
+
+**Please note that PHP 5.3 will not compile for ARM64 architecture**
