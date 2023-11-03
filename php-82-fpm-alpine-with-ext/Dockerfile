@@ -2,7 +2,7 @@ FROM php:8.2-fpm-alpine
 
 LABEL MAINTAINER="SATYADEEP G" \
       "GitHub Link"="https://github.com/satyadeep" \
-      "PHP Version"="8.1.11" \
+      "PHP Version"="8.2" \
       "Alpine Linux Version"="3.17"
 
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
