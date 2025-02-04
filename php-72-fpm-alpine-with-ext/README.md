@@ -52,8 +52,8 @@
 
 * msmtp
 
-  To build this image, just run  
+  To build this image, just run
 ```docker image build -t  imagename .```
 
-  MultiArch Build
-```docker buildx build --push --platform linux/arm64,linux/amd64 --tag  imagename . ```
+  To build multi-arch image, run
+```docker buildx build --push  --platform linux/amd64,linux/arm64 --tag your_docker_username/multi_arch_image:tag-latest .```

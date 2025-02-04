@@ -1,4 +1,4 @@
-# PHP FPM 7.0.33 based on Alpine Linux 3.7
+# PHP FPM 8.4 based on Alpine Linux 3.21
 
 ## PHP Extensions Included -
 
@@ -19,6 +19,7 @@
 * mbstring
 * mysqli
 * opcache
+* openssl
 * pdo
 * pdo_mysql
 * redis
@@ -32,15 +33,15 @@
 ### Additional Extensions :
 
 * imagick
-* mcrypt
 * mongodb
 * sodium
 * Zend Optimizer Plus (Opcache)
-* Xdebug 2.9.0 (Using Xdebug 2.9.0 as support for PHP 7.0 has been dropped in later versions)
+* Xdebug
 * XHProf
 * Uploadprogress
 * Memcached
 
+<em>(mcrypt is no longer supported for PHP 8.4 and is excluded)</em>
 
 ### Other Tools :
 * composer
@@ -58,3 +59,4 @@
 
   To build multi-arch image, run
 ```docker buildx build --push  --platform linux/amd64,linux/arm64 --tag your_docker_username/multi_arch_image_name:tag-latest .```
+

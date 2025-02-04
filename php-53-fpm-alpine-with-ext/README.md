@@ -44,4 +44,4 @@
 * mhsendmail
 
   To build this image, just run  
-```docker image build -t  imagename .```
+```docker image build -t  image_name .```
