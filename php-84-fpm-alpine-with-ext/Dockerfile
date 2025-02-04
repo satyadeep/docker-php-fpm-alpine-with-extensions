@@ -26,7 +26,7 @@ RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS \
             intl \
             ldap \
             mbstring \
-            mcrypt \
+            # mcrypt \ # Excluded as it doesn't support PHP 8.4
             memcached \
             mongodb \
             mysqli \
