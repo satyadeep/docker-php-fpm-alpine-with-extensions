@@ -1,4 +1,4 @@
-# PHP FPM 7.0.33 based on Alpine Linux 3.7
+# PHP FPM 8.4 based on Alpine Linux 3.21
 
 ## PHP Extensions Included -
 
@@ -19,6 +19,7 @@
 * mbstring
 * mysqli
 * opcache
+* openssl
 * pdo
 * pdo_mysql
 * redis
@@ -32,19 +33,20 @@
 ### Additional Extensions :
 
 * imagick
-* mcrypt
 * mongodb
 * sodium
 * Zend Optimizer Plus (Opcache)
 * Uploadprogress
 * Memcached
 
+<em>(mcrypt is no longer supported for PHP 8.4 and is excluded)</em>
 
 ### Other Tools :
 * composer
 * wp-cli
 
 <em>(composer and wp-cli can be used from within the container)</em>
+
 
 
 ### Extension for sending email :
