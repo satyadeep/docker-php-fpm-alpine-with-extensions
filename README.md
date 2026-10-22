@@ -1,4 +1,4 @@
-# PHP FPM Versions 5.3, 5.4, 5.5, 5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.1, 8.2, 8.3 & 8.4 Docker Images with different Extensions installed
+# PHP FPM Versions 5.3, 5.4, 5.5, 5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.1, 8.2, 8.3, 8.4 & 8.5 Docker Images with different Extensions installed
 
 Please note that this is the **development branch** and the images in this branch have **XDebug and XHProf** installed and are **NOT suitable for production. Use these for development ONLY***
 
@@ -14,6 +14,7 @@ Please note that this is the **development branch** and the images in this branc
 * PHP 8.2 is based on Alpine Linux 3.17
 * PHP 8.3 is based on Alpine Linux 3.21
 * PHP 8.4 is based on Alpine Linux 3.21
+* PHP 8.5 is based on Alpine Linux 3.21
 
 Using PHP Extension Installer script from [here](https://github.com/mlocati/docker-php-extension-installer)
 
