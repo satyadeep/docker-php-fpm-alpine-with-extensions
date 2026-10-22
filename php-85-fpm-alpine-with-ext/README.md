@@ -1,4 +1,4 @@
-# PHP FPM 8.4 based on Alpine Linux 3.21
+# PHP FPM 8.5 based on Alpine Linux 3.21
 
 ## PHP Extensions Included -
 
@@ -41,7 +41,7 @@
 * Uploadprogress
 * Memcached
 
-<em>(mcrypt is no longer supported for PHP 8.4 and is excluded)</em>
+<em>(mcrypt is no longer supported for PHP 8.5 and is excluded)</em>
 
 ### Other Tools :
 * composer
